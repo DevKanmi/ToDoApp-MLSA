@@ -1,13 +1,16 @@
 const toDoRoute = require('express').Router()   //Tweak to taste.
 
 //Import Controllers
-const {getData} = require('../controllers/toDoController')
+const {createtoDo, getAllToDo,updateToDO, deleteTask} = require('../controllers/toDoController')
 
 
 
 
 //Routes
-toDoRoute.get('/',getData)
+toDoRoute.get('/tasks',getAllToDo)
+toDoRoute.post('/create',createtoDo)
+toDoRoute.patch('/update/:id', updateToDO)
+toDoRoute.delete('/delete/:id',deleteTask)
 
 
 
