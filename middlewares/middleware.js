@@ -4,6 +4,8 @@ const requestLogger = (request, response, next) => {
   logger.info('HTTP method is: ',request.method)
   logger.info('HTTP path is: ', request.path)
   logger.info('HTTP body: ', request.body)
+
+  next()
 }
 
 

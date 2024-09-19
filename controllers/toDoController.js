@@ -1,11 +1,15 @@
 
 //Import Model
 const ToDo = require('../models/todoSchema') //Edit ModelName
-
+const {StatusCodes} = require('http-status-codes')
+const{successResponse, errorResponse} = require('../utils/responses')
+const {logger}= require('../utils/advLogger')
+const { error } = require('winston')
 
 const createtoDo = async(request, response) =>{
     const {task, details, status} = request.body
     try{
+    logger.info(`Start: Creation of task`)
     const todo = new ToDo({
         task,
         details,
@@ -13,18 +17,22 @@ const createtoDo = async(request, response) =>{
     })
 
     const newToDo = await todo.save()
-    response.status(201).json({message:"A task has been created",newToDo})
-}   catch(error){
+    logger.info('End: Task Successfully Created')
+    successResponse(response,StatusCodes.CREATED,'Task Created',newToDo)
+
+}  
+catch(error){
     response.status(500).json({error: "Something went wrong"})
 }}
 
 const getAllToDo = async(request, response)=>{
     try{
     const todo = await ToDo.find({})
+    logger.info('Start : Show all Tasks Commenced:')
+    
 
-    response.status(200).json({
-        message:'Here are the tasks on your TODO list!!',todo
-    })
+    successResponse(response,StatusCodes.OK,'All Taska returned',todo)
+    logger.info('End: All tasks Successully shown.')
 }
     catch(error){
         response.status(404).json({error: "Something Went wrong", error
